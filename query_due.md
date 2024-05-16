@@ -68,3 +68,33 @@ WHERE departments . `name` LIKE 'Dipartimento di Matematica';
 7. BONUS: Selezionare per ogni studente il numero di tentativi sostenuti
    per ogni esame, stampando anche il voto massimo. Successivamente,
    filtrare i tentativi con voto minimo 18.
+
+1. Contare quanti iscritti ci sono stati ogni anno
+
+SELECT YEAR(`enrolment_date`) AS enrolment_year, COUNT(\*) AS enrolment_count  
+FROM `students`  
+GROUP BY YEAR(`enrolment_date`);
+
+2. Contare gli insegnanti che hanno l'ufficio nello stesso edificio
+
+SELECT office_address, COUNT(\*) AS teacher_count  
+FROM teachers  
+GROUP BY office_address;
+
+3. Calcolare la media dei voti di ogni appello d'esame
+
+SELECT CONCAT(`students`.`name`, ' ', `students`.`surname`) AS `student_fullname`, AVG(`exam_student`.`vote`) AS `avg_vote`  
+FROM `students`  
+JOIN `exam_student`  
+ON `exam_student`.`student_id` = `students`.`id`  
+JOIN `exams`  
+ON `exams`.`id` = `exam_student`.`exam_id`  
+GROUP BY `students`.`id`;
+
+4. Contare quanti corsi di laurea ci sono per ogni dipartimento
+
+SELECT departments.name AS `department_name`, COUNT(degrees.id) AS num_degrees  
+FROM departments  
+INNER JOIN degrees ON degrees.department_id = departments.id  
+GROUP BY departments.id;  
+
